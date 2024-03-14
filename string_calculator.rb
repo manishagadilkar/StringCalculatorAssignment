@@ -22,4 +22,23 @@ class StringCalculator
     # Sum the numbers and return the result
     integer_digits.sum
   end
+
+  private
+
+  def parse_custom_delimiter(numbers)
+    parts = numbers.split("\n", 2) # Split only on first newline
+    custom_delimiter = parts[0][2..]
+    numbers = parts[1]
+
+    # Allow multiple single char or one longer custom delimiter
+    custom_delimiter = Regexp.escape(custom_delimiter)
+    pattern = custom_delimiter.include?('[') ? parse_multiple_delimiters(custom_delimiter) : custom_delimiter
+
+    [pattern, numbers]
+  end
+
+  def parse_multiple_delimiters(custom_delimiter)
+    delimiters = custom_delimiter.scan(/\[([^\[\]]+)\]/).flatten.map { |delim| Regexp.escape(delim) }
+    Regexp.union(delimiters)
+  end
 end
