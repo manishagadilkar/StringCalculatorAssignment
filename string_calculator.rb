@@ -41,4 +41,21 @@ class StringCalculator
     delimiters = custom_delimiter.scan(/\[([^\[\]]+)\]/).flatten.map { |delim| Regexp.escape(delim) }
     Regexp.union(delimiters)
   end
+
+  def validate_and_convert(digits)
+    # Convert to integer and check for negatives
+    negative_numbers = []
+    integer_digits = digits.map do |digit|
+      raise 'input is invalid' if digit.strip.empty?
+
+      number = Integer(digit)
+      negative_numbers << number if number.negative?
+      number
+    end
+
+    # Raise an exception if there are negative numbers
+    raise "negative numbers not allowed: #{negative_numbers.join(', ')}" unless negative_numbers.empty?
+
+    integer_digits
+  end
 end
