@@ -12,5 +12,14 @@ class StringCalculator
     else
       delimiter = /[,|\n]/
     end
+
+    # Split numbers by the provided delimiter(s)
+    digits = numbers.split(delimiter)
+
+    # Validate and convert string digits to integers
+    integer_digits = validate_and_convert(digits)
+
+    # Sum the numbers and return the result
+    integer_digits.sum
   end
 end
